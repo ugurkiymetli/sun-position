@@ -20,7 +20,7 @@
   flex-direction: column;
   font-size: calc(10px + 1.2vmin);
   color: white;
-  padding: 10%;
+  padding: 5% 10% 0;
 }
 
 .App-link {
@@ -69,7 +69,6 @@
 }
 .selected-cities-container span {
   color: #282c34;
-  /* font-size: small; */
 }
 .selected-cities-container strong {
   font-size: 18px;
