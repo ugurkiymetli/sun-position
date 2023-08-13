@@ -112,3 +112,22 @@ a {
   color: inherit;
   background-color: inherit;
 }
+
+.error {
+  color: #e84118;
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.quotaError {
+  margin: 10px 0;
+  font-weight: bold;
+  text-align: justify;
+}
+.quotaError a {
+  text-decoration: underline;
+  font-style: italic;
+}

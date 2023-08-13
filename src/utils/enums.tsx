@@ -6,9 +6,16 @@ export enum TimePeriod {
 }
 
 export enum Direction {
-  West = "west",
-  East = "east",
+  North = "North",
+  NorthWest = "NorthWest",
+  West = "West",
+  SouthWest = "SouthWest",
+  South = "South",
+  SouthEast = "SouthEast",
+  East = "East",
+  NorthEast = "NorthEast",
   Same = "same",
+  Unknown = "unknown",
 }
 
 export enum Position {

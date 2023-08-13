@@ -4,12 +4,13 @@ import { City, Time, Geo } from "./utils/types";
 import { Steps } from "intro.js-react";
 import { Position } from "./utils/enums";
 import {
-  API_KEY,
   capitalizeFirst,
   getTimePeriod,
   getDirection,
   getSunPosition,
   steps,
+  fetchCoordinates,
+  quotaError,
 } from "./utils/utils";
 
 const cityData: City[] = require("./assets/cities.json").data;
@@ -30,52 +31,23 @@ function App() {
   const [coordinates2, setCoordinates2] = useState<Geo>();
   const [time, setTime] = useState(defaultTime.time);
   const [sunPosition, setSunPosition] = useState<Position>();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-        city1
-      )}&key=${API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const coordinates = data.results[0].geometry;
-        const { lat, lng } = coordinates;
-        setCoordinates1({ lat, lng });
-      })
-      .catch((error) => {
-        console.error("Error fetching coordinates:", error);
-      });
+    fetchCoordinates(city1, setCoordinates1, setError);
   }, [city1]);
 
   useEffect(() => {
-    fetch(
-      `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(
-        city2
-      )}&key=${API_KEY}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const coordinates = data.results[0].geometry;
-        const { lat, lng } = coordinates;
-        setCoordinates2({ lat, lng });
-      })
-      .catch((error) => {
-        console.error("Error fetching coordinates:", error);
-      });
+    fetchCoordinates(city2, setCoordinates2, setError);
   }, [city2]);
 
   useEffect(() => {
-    if (coordinates1?.lng && coordinates2?.lng && time) {
-      const { lng: lng1 } = coordinates1;
-      const { lng: lng2 } = coordinates2;
+    if (coordinates1 && coordinates2 && time) {
       const t = getTimePeriod(time);
-      const dir = getDirection(lng1, lng2);
+      const dir = getDirection(coordinates1, coordinates2);
       const pos = getSunPosition(dir, t);
-
       setSunPosition(pos);
-
-      console.log({ timePeriod: t, dir, pos });
+      console.log(city1, "-", city2, { t, dir, pos });
     }
   }, [coordinates1, coordinates2, time]);
 
@@ -88,6 +60,9 @@ function App() {
     setCity2(event.target.value);
     document.getElementById(selectTime)?.focus();
   };
+
+  const disabled = error?.message !== undefined;
+  console.log(error?.message);
 
   return (
     <div className="app">
@@ -115,12 +90,30 @@ function App() {
           </h3>
         )}
       </div>
+      {error?.message === quotaError && (
+        <div className="quotaError">
+          We've hit the limit of our free quota for the geographic data service.
+          😔 You can make a difference by supporting us for a higher quota. Your
+          contribution keeps us going strong and the 🌍 spinning. Thank you for
+          considering helping us out! You can reach out to us{" "}
+          <a
+            href="http://linkedin.com/in/ugurkiymetli"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </a>
+          .{" "}
+        </div>
+      )}
+      {error && <div className="error">Oops! Something went wrong.</div>}
       <div className="select-div">
-        <label htmlFor={selectCity1}>
+        <label className={disabled ? "disabled" : ""} htmlFor={selectCity1}>
           choose <strong>from</strong> city:
         </label>{" "}
         <br />
         <select
+          disabled={disabled}
           name={selectCity1}
           id={selectCity1}
           onChange={handleCity1Change}
@@ -130,11 +123,12 @@ function App() {
         </select>
       </div>
       <div className="select-div">
-        <label htmlFor={selectCity2}>
+        <label className={disabled ? "disabled" : ""} htmlFor={selectCity2}>
           choose <strong>to</strong> city:
         </label>
         <br />
         <select
+          disabled={disabled}
           name={selectCity2}
           id={selectCity2}
           onChange={handleCity2Change}
@@ -145,11 +139,12 @@ function App() {
       </div>
       {city1 && city2 && (
         <div className="select-div">
-          <label htmlFor={selectTime}>
+          <label className={disabled ? "disabled" : ""} htmlFor={selectTime}>
             choose <strong>time</strong>{" "}
           </label>{" "}
           <br />
           <select
+            disabled={disabled}
             name={selectTime}
             id={selectTime}
             onChange={(e) => setTime(e.target.value)}
@@ -168,6 +163,7 @@ function App() {
           title="Click to view intro tour!"
           className="info-button"
           onClick={() => setIsIntroOpen(true)}
+          disabled={disabled}
         >
           <i className="icon-info-sign" /> intro tour
         </button>
