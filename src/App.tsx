@@ -1,22 +1,27 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { City, Time, Geo } from "./utils/types";
+import { Steps } from "intro.js-react";
+import { Position } from "./utils/enums";
 import {
   API_KEY,
   capitalizeFirst,
   getTimePeriod,
   getDirection,
   getSunPosition,
-  Position,
+  steps,
 } from "./utils/utils";
 
 const cityData: City[] = require("./assets/cities.json").data;
 const timeData: Time[] = require("./assets/hours.json");
+const istanbul = cityData.filter((city) => city.plaka_kodu === "34")[0];
+const ankara = cityData.filter((city) => city.plaka_kodu === "06")[0];
+const defaultTime = timeData.filter(({ time }) => time === "08:00")[0];
 
 function App() {
-  const [city1, setCity1] = useState(cityData[0].il_adi);
-  const [city2, setCity2] = useState(cityData[1].il_adi);
-  const [time, setTime] = useState(timeData[16].time);
+  const [city1, setCity1] = useState(istanbul.il_adi);
+  const [city2, setCity2] = useState(ankara.il_adi);
+  const [time, setTime] = useState(defaultTime.time);
   const [coordinates1, setCoordinates1] = useState<Geo>();
   const [coordinates2, setCoordinates2] = useState<Geo>();
   const [sunPosition, setSunPosition] = useState<Position>();
@@ -69,6 +74,124 @@ function App() {
     }
   }, [coordinates1, coordinates2, time]);
 
+  const [isIntroOpen, setIsIntroOpen] = useState(false);
+
+  return (
+    <div className="app">
+      <h2>
+        Calculate Sun Position 🌞 <br />
+      </h2>
+      <div className="selected-cities-container">
+        <strong>{capitalizeFirst(city1)}</strong>
+        <span> ⬇ </span>
+        <strong>{capitalizeFirst(city2)}</strong>
+        {time && (
+          <>
+            <br />
+            <strong>
+              <span className="timeEmoji">🕐 </span> {time}
+            </strong>
+          </>
+        )}
+      </div>
+      <div className="sunPosition">
+        {sunPosition && sunPosition !== Position.Unknown && (
+          <h3>
+            In this trip sun will be mostly on{" "}
+            <strong id="sunPosition">{sunPosition}</strong>.
+          </h3>
+          )}
+      </div>
+      <div className="select-div">
+        <label htmlFor="city-1">
+          choose <strong>from</strong> city:
+        </label>{" "}
+        <br />
+        <select
+          name="city-1"
+          id="city1"
+          onChange={(e) => setCity1(e.target.value)}
+          value={city1}
+        >
+          {getCitiesAndDistricts()}
+        </select>
+      </div>
+      <div className="select-div">
+        <label htmlFor="city-2">
+          choose <strong>to</strong> city:
+        </label>
+        <br />
+        <select
+          name="city-2"
+          id="city2"
+          onChange={(e) => setCity2(e.target.value)}
+          value={city2}
+        >
+          {getCitiesAndDistricts()}
+        </select>
+      </div>
+      {city1 && city2 && (
+        <div className="select-div">
+          <label htmlFor="time">
+            choose <strong>time</strong>{" "}
+          </label>{" "}
+          <br />
+          <select
+            name="Time"
+            id="time"
+            onChange={(e) => setTime(e.target.value)}
+            value={time}
+          >
+            {timeData.map(({ time }) => (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+      <footer>
+        <button
+          title="Click to view intro tour!"
+          className="infoButton"
+          onClick={() => setIsIntroOpen(true)}
+        >
+          <i className="icon-info-sign" /> intro tour
+        </button>
+        <button>
+          <a
+            href="https://github.com/ugurkiymetli/sun-position"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <i className="icon-github-sign" /> repo
+          </a>
+        </button>
+        <button>
+          <a
+            href="https://linkedin.com/in/ugurkiymetli"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <i className="icon-linkedin-sign" /> uğur
+          </a>
+        </button>
+      </footer>
+      <Steps
+        enabled={isIntroOpen}
+        steps={steps}
+        initialStep={0}
+        onExit={() => setIsIntroOpen(false)}
+        options={{
+          showStepNumbers: true,
+          exitOnEsc: true,
+          showProgress: true,
+          showBullets: false,
+        }}
+      />
+    </div>
+  );
+
   function getCitiesAndDistricts() {
     return cityData.map((city) => {
       const options: JSX.Element[] = [];
@@ -101,100 +224,6 @@ function App() {
       return options;
     });
   }
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h2>
-          Calculate Sun Position 🌞 <br />
-          <span>
-            made by{" "}
-            <a
-              href="http://www.github.com/ugurkiymetli"
-              target="_blank"
-              className="App-link"
-              rel="noreferrer"
-            >
-              uğur
-            </a>
-            .
-          </span>
-        </h2>
-        <div className="selected-cities-container">
-          <strong>{city1}</strong>
-          <span> ⬇ </span>
-          <strong>{city2}</strong>
-          {time && (
-            <>
-              <br />
-              <strong>
-                <span>🕐 : </span>
-                {time}
-              </strong>
-            </>
-          )}
-        </div>
-        <div className="sunPosition">
-          {sunPosition && sunPosition !== Position.Unknown && (
-            <div className="direction">
-              <h3>
-                In this trip sun will be mostly on{" "}
-                <strong>{sunPosition}</strong>.
-              </h3>
-            </div>
-          )}
-        </div>
-        <div className="select-div">
-          <label htmlFor="City 1">
-            choose <strong>from</strong> city:{" "}
-          </label>{" "}
-          <br />
-          <select
-            name="City 1"
-            id="City 1"
-            onChange={(e) => setCity1(e.target.value)}
-            value={city1}
-          >
-            {getCitiesAndDistricts()}
-          </select>
-        </div>
-        <div className="select-div">
-          <label htmlFor="City 1">
-            choose <strong>to</strong> city:{" "}
-          </label>{" "}
-          <br />
-          <select
-            name="City 2"
-            id="City 2"
-            onChange={(e) => setCity2(e.target.value)}
-            value={city2}
-          >
-            {getCitiesAndDistricts()}
-          </select>
-        </div>
-        {city1 && city2 && (
-          <div className="select-div">
-            <label htmlFor="time">
-              choose <strong>time</strong>{" "}
-            </label>{" "}
-            <br />
-            <select
-              name="Time"
-              id="time"
-              onChange={(e) => setTime(e.target.value)}
-              value={time}
-            >
-              {timeData.map(({ time }) => (
-                <option key={time} value={time}>
-                  {time}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-      </header>
-    </div>
-  );
 }
 
 export default App;

@@ -61,4 +61,26 @@ export function capitalizeFirst(string: string): string {
 }
 
 export const API_KEY = "0fea786133384dcd80f50c2a9297f488";
-export { Position };
+
+export const steps = [
+  {
+    element: "#city1",
+    intro: "Choose the starting city from this dropdown.",
+  },
+  {
+    element: "#city2",
+    intro: "Choose the destination city from this dropdown.",
+  },
+  {
+    element: "#time",
+    intro: "Select the time of travel.",
+  },
+  {
+    element: ".selected-cities-container",
+    intro: "This is where you see the selected cities and selected time.",
+  },
+  {
+    element: "#sunPosition",
+    intro: "Here you'll find information about the sun's position.",
+  },
+];

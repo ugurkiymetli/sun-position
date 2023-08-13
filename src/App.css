@@ -1,39 +1,35 @@
-.App {
-  text-align: center;
-  background-color: #353b48;
-  min-height: 100vh;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+a {
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
 }
 
-.App-header {
+.app {
+  background-color: #353b48;
+  color: #f5f6fa;
   display: flex;
   flex-direction: column;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
   font-size: calc(10px + 1.2vmin);
-  color: white;
-  padding: 5% 10% 0;
+  text-align: center;
+  min-height: 100vh;
+  padding: 1% 10% 0;
 }
 
-.App-header h2 > span {
+.app h2 > span {
   font-size: small;
   color: #fff;
 }
 
-.App-link {
-  color: #487eb0;
-  font-family: monospace;
-  font-size: large;
-  font-style: italic;
-}
-
 .select-div {
-  margin-bottom: 20px;
+  margin: 12px 0 2px;
 }
 
 .select-div:focus {
   outline: none;
   border-color: #00a8ff;
-  box-shadow: 0 0 0 2px #00a8ff;
+  box-shadow: 0 0 0 2px #e84118;
 }
 
 .select-div select {
@@ -53,16 +49,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
   border: 2px solid #2f3640;
   border-radius: 6px;
   background-color: #f5f6fa;
-  margin-bottom: 20px;
-  margin-top: 6px;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 350px;
+  width: 85%;
+  padding: 12px;
+  margin: 6px auto 20px;
+  max-width: 400px;
+  color: #2f3640;
 }
 
 .selected-cities-container span {
@@ -71,26 +65,50 @@
 
 .selected-cities-container strong {
   font-size: 18px;
-  color: #00a8ff;
+  color: #0097e6;
   display: flex;
   align-items: center;
 }
 
-.city-label {
-  margin-right: 10px;
-  font-weight: bold;
-  color: #2f3640;
+.timeEmoji {
+  padding-right: 5px;
 }
 
-.direction {
-  margin-top: 6px;
-  margin-bottom: 6px;
+.sunPosition h3 {
+  margin: 6px 0;
 }
-.direction strong {
+.sunPosition strong {
   color: #e1b12c;
 }
 
-.sunPosition {
-  margin-top: 6px;
-  margin-bottom: 6px;
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 1%;
+  width: 100%;
+  text-align: center;
+}
+footer > button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #f5f6fa;
+  font-size: calc(10px + 1.1vmin);
+  margin-right: 8px;
+}
+
+.infoButton i {
+  color: #00a8ff;
+}
+
+.madeBy {
+  display: inline-block;
+  color: #f5f6fa;
+}
+
+.introjs-tooltip {
+  background-color: #f5f6fa;
+  border: 2px solid #2f3640;
+  border-radius: 6px;
 }
