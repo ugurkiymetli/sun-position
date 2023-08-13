@@ -14,14 +14,13 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1a1a1b;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1.2vmin);
   color: white;
+  padding: 10%;
 }
 
 .App-link {
@@ -35,4 +34,62 @@
   to {
     transform: rotate(360deg);
   }
+}
+.select-div {
+  margin-bottom: 20px;
+}
+.select-div:focus {
+  outline: none;
+  border-color: dodgerblue;
+  box-shadow: 0 0 0 2px dodgerblue;
+}
+
+.select-div select {
+  width: 75%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 16px;
+  transition: border-color 0.3s ease-in-out;
+  margin-top: 6px;
+}
+
+.selected-cities-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  margin-bottom: 20px;
+  margin-top: 6px;
+}
+.selected-cities-container span {
+  color: #282c34;
+  /* font-size: small; */
+}
+.selected-cities-container strong {
+  font-size: 18px;
+  color: dodgerblue;
+  display: flex;
+  align-items: center;
+}
+
+.city-label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #282c34;
+}
+
+.direction {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.sunPosition {
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
