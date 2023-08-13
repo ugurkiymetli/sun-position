@@ -1,3 +1,11 @@
+export interface Geo {
+  lat: number | undefined;
+  lng: number | undefined;
+}
+export interface Time {
+  time: string;
+}
+
 export interface City {
   il_adi: string;
   plaka_kodu: string;

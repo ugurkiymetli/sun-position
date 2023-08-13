@@ -1,23 +1,17 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import { City } from "./assets/cities-types";
-import { Time } from "./assets/time-type";
+import { useEffect, useState } from "react";
+import { City, Time, Geo } from "./utils/types";
 import {
-  capitalizeFirstLetter,
-  determineTimePeriod,
+  API_KEY,
+  capitalizeFirst,
+  getTimePeriod,
   getDirection,
   getSunPosition,
   Position,
 } from "./utils/utils";
+
 const cityData: City[] = require("./assets/cities.json").data;
 const timeData: Time[] = require("./assets/hours.json");
-
-const API_KEY = "0fea786133384dcd80f50c2a9297f488";
-
-interface Geo {
-  lat: number | undefined;
-  lng: number | undefined;
-}
 
 function App() {
   const [city1, setCity1] = useState(cityData[0].il_adi);
@@ -65,11 +59,13 @@ function App() {
     if (coordinates1?.lng && coordinates2?.lng && time) {
       const { lng: lng1 } = coordinates1;
       const { lng: lng2 } = coordinates2;
-      const timePeriod = determineTimePeriod(time);
+      const t = getTimePeriod(time);
       const dir = getDirection(lng1, lng2);
-      const pos = getSunPosition(dir, timePeriod);
-      console.log({ timePeriod, dir, pos });
+      const pos = getSunPosition(dir, t);
+
       setSunPosition(pos);
+
+      console.log({ timePeriod: t, dir, pos });
     }
   }, [coordinates1, coordinates2, time]);
 
@@ -98,7 +94,7 @@ function App() {
               key={`${city.plaka_kodu} - ${district.ilce_adi}`}
               value={district.ilce_adi}
             >
-              {city.plaka_kodu} - {capitalizeFirstLetter(district.ilce_adi)}
+              {city.plaka_kodu} - {capitalizeFirst(district.ilce_adi)}
             </option>
           )
         );

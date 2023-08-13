@@ -1,11 +1,6 @@
-export enum TimePeriod {
-  Noon = "Noon",
-  Midday = "Midday",
-  Afternoon = "Afternoon",
-  Nighttime = "Nighttime",
-}
+import { TimePeriod, Direction, Position } from "./enums";
 
-export function determineTimePeriod(selectedTime: string): TimePeriod {
+export function getTimePeriod(selectedTime: string): TimePeriod {
   const selectedHour = parseInt(selectedTime.split(":")[0], 10);
 
   if (selectedHour >= 6 && selectedHour < 12) {
@@ -19,12 +14,6 @@ export function determineTimePeriod(selectedTime: string): TimePeriod {
   }
 }
 
-export enum Direction {
-  West = "west",
-  East = "east",
-  Same = "same",
-}
-
 export function getDirection(
   longitude1: number,
   longitude2: number
@@ -36,13 +25,6 @@ export function getDirection(
   } else {
     return Direction.Same;
   }
-}
-
-export enum Position {
-  Right = "right",
-  Left = "left",
-  Above = "above",
-  Unknown = "unknown",
 }
 
 export function getSunPosition(
@@ -73,7 +55,10 @@ export function getSunPosition(
   return Position.Unknown;
 }
 
-export function capitalizeFirstLetter(string: string): string {
+export function capitalizeFirst(string: string): string {
   const lowercase = string.toLocaleLowerCase("tr");
   return string.charAt(0).toUpperCase() + lowercase.slice(1);
 }
+
+export const API_KEY = "0fea786133384dcd80f50c2a9297f488";
+export { Position };
