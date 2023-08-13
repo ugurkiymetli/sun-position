@@ -62,7 +62,6 @@ function App() {
   };
 
   const disabled = error?.message !== undefined;
-  console.log(error?.message);
 
   return (
     <div className="app">

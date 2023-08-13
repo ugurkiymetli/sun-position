@@ -18,6 +18,8 @@ export async function fetchCoordinates(
       setCoordinates({ lat, lng });
     } else
       await response.json().then((res) => {
+        const d = new Date(res.rate.reset * 1000);
+        console.log(`Quota will reset at ${d.toLocaleString()}`);
         throw new Error(res.status.message);
       });
   } catch (error) {
