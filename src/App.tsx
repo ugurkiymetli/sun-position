@@ -3,6 +3,7 @@ import "./App.css";
 import { City } from "./assets/cities-types";
 import { Time } from "./assets/time-type";
 import {
+  capitalizeFirstLetter,
   determineTimePeriod,
   getDirection,
   getSunPosition,
@@ -21,7 +22,7 @@ interface Geo {
 function App() {
   const [city1, setCity1] = useState(cityData[0].il_adi);
   const [city2, setCity2] = useState(cityData[1].il_adi);
-  const [time, setTime] = useState(timeData[0].time);
+  const [time, setTime] = useState(timeData[16].time);
   const [coordinates1, setCoordinates1] = useState<Geo>();
   const [coordinates2, setCoordinates2] = useState<Geo>();
   const [sunPosition, setSunPosition] = useState<Position>();
@@ -76,17 +77,28 @@ function App() {
     return cityData.map((city) => {
       const options: JSX.Element[] = [];
       const il = (
-        <option key={city.alan_kodu} value={city.il_adi}>
-          {city.il_adi}
-        </option>
+        <>
+          <option key={city.il_adi + "--"} value="" disabled>
+            -------------------------
+          </option>
+          <option
+            key={`${city.plaka_kodu} - ${city.il_adi}`}
+            value={city.il_adi}
+          >
+            {city.il_adi}
+          </option>
+        </>
       );
       options.push(il);
       city.ilceler
         .filter((ilce) => ilce.ilce_adi !== "MERKEZ")
         .map((district) =>
           options.push(
-            <option key={district.ilce_kodu} value={district.ilce_adi}>
-              {district.ilce_adi}
+            <option
+              key={`${city.plaka_kodu} - ${district.ilce_adi}`}
+              value={district.ilce_adi}
+            >
+              {city.plaka_kodu} - {capitalizeFirstLetter(district.ilce_adi)}
             </option>
           )
         );
@@ -97,7 +109,21 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Calculate Sun Position 🌞</h2>
+        <h2>
+          Calculate Sun Position 🌞 <br />
+          <span>
+            made by{" "}
+            <a
+              href="http://www.github.com/ugurkiymetli"
+              target="_blank"
+              className="App-link"
+              rel="noreferrer"
+            >
+              uğur
+            </a>
+            .
+          </span>
+        </h2>
         <div className="selected-cities-container">
           <strong>{city1}</strong>
           <span> ⬇ </span>
@@ -123,7 +149,10 @@ function App() {
           )}
         </div>
         <div className="select-div">
-          <label htmlFor="City 1">Choose city 1</label> <br />
+          <label htmlFor="City 1">
+            choose <strong>from</strong> city:{" "}
+          </label>{" "}
+          <br />
           <select
             name="City 1"
             id="City 1"
@@ -134,7 +163,10 @@ function App() {
           </select>
         </div>
         <div className="select-div">
-          <label htmlFor="City 1">Choose city 2</label> <br />
+          <label htmlFor="City 1">
+            choose <strong>to</strong> city:{" "}
+          </label>{" "}
+          <br />
           <select
             name="City 2"
             id="City 2"
@@ -146,7 +178,10 @@ function App() {
         </div>
         {city1 && city2 && (
           <div className="select-div">
-            <label htmlFor="time">Choose time </label> <br />
+            <label htmlFor="time">
+              choose <strong>time</strong>{" "}
+            </label>{" "}
+            <br />
             <select
               name="Time"
               id="time"

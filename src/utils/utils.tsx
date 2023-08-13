@@ -72,3 +72,8 @@ export function getSunPosition(
   }
   return Position.Unknown;
 }
+
+export function capitalizeFirstLetter(string: string): string {
+  const lowercase = string.toLocaleLowerCase("tr");
+  return string.charAt(0).toUpperCase() + lowercase.slice(1);
+}
