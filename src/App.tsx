@@ -18,12 +18,17 @@ const istanbul = cityData.filter((city) => city.plaka_kodu === "34")[0];
 const ankara = cityData.filter((city) => city.plaka_kodu === "06")[0];
 const defaultTime = timeData.filter(({ time }) => time === "08:00")[0];
 
+const selectCity1 = "select-city-1";
+const selectCity2 = "select-city-2";
+const selectTime = "select-time";
+
 function App() {
+  const [isIntroOpen, setIsIntroOpen] = useState(false);
   const [city1, setCity1] = useState(istanbul.il_adi);
   const [city2, setCity2] = useState(ankara.il_adi);
-  const [time, setTime] = useState(defaultTime.time);
   const [coordinates1, setCoordinates1] = useState<Geo>();
   const [coordinates2, setCoordinates2] = useState<Geo>();
+  const [time, setTime] = useState(defaultTime.time);
   const [sunPosition, setSunPosition] = useState<Position>();
 
   useEffect(() => {
@@ -74,7 +79,15 @@ function App() {
     }
   }, [coordinates1, coordinates2, time]);
 
-  const [isIntroOpen, setIsIntroOpen] = useState(false);
+  const handleCity1Change = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCity1(event.target.value);
+    document.getElementById(selectCity2)?.focus();
+  };
+
+  const handleCity2Change = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCity2(event.target.value);
+    document.getElementById(selectTime)?.focus();
+  };
 
   return (
     <div className="app">
@@ -89,42 +102,42 @@ function App() {
           <>
             <br />
             <strong>
-              <span className="timeEmoji">🕐 </span> {time}
+              <span className="time-emoji">🕐 </span> {time}
             </strong>
           </>
         )}
       </div>
-      <div className="sunPosition">
+      <div className="sun-position">
         {sunPosition && sunPosition !== Position.Unknown && (
           <h3>
             In this trip sun will be mostly on{" "}
             <strong id="sunPosition">{sunPosition}</strong>.
           </h3>
-          )}
+        )}
       </div>
       <div className="select-div">
-        <label htmlFor="city-1">
+        <label htmlFor={selectCity1}>
           choose <strong>from</strong> city:
         </label>{" "}
         <br />
         <select
-          name="city-1"
-          id="city1"
-          onChange={(e) => setCity1(e.target.value)}
+          name={selectCity1}
+          id={selectCity1}
+          onChange={handleCity1Change}
           value={city1}
         >
           {getCitiesAndDistricts()}
         </select>
       </div>
       <div className="select-div">
-        <label htmlFor="city-2">
+        <label htmlFor={selectCity2}>
           choose <strong>to</strong> city:
         </label>
         <br />
         <select
-          name="city-2"
-          id="city2"
-          onChange={(e) => setCity2(e.target.value)}
+          name={selectCity2}
+          id={selectCity2}
+          onChange={handleCity2Change}
           value={city2}
         >
           {getCitiesAndDistricts()}
@@ -132,13 +145,13 @@ function App() {
       </div>
       {city1 && city2 && (
         <div className="select-div">
-          <label htmlFor="time">
+          <label htmlFor={selectTime}>
             choose <strong>time</strong>{" "}
           </label>{" "}
           <br />
           <select
-            name="Time"
-            id="time"
+            name={selectTime}
+            id={selectTime}
             onChange={(e) => setTime(e.target.value)}
             value={time}
           >
@@ -153,7 +166,7 @@ function App() {
       <footer>
         <button
           title="Click to view intro tour!"
-          className="infoButton"
+          className="info-button"
           onClick={() => setIsIntroOpen(true)}
         >
           <i className="icon-info-sign" /> intro tour
