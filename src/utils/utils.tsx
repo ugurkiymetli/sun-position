@@ -166,15 +166,15 @@ export function capitalizeFirst(string: string): string {
 
 export const steps = [
   {
-    element: "#city1",
+    element: "#select-city-1",
     intro: "Choose the starting city from this dropdown.",
   },
   {
-    element: "#city2",
+    element: "#select-city-2",
     intro: "Choose the destination city from this dropdown.",
   },
   {
-    element: "#time",
+    element: "#select-time",
     intro: "Select the time of travel.",
   },
   {
