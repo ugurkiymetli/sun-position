@@ -186,10 +186,13 @@ export const steps = [
     element: "#sunPosition",
     intro: "Here you'll find information about the sun's position.",
   },
-
   {
     element: ".leaflet-container",
     intro: "Here you'll find selected cities on the map.",
+  },
+  {
+    element: "#change-theme-button",
+    intro: "Here you can change theme.",
   },
 ];
 

@@ -1,4 +1,5 @@
 import * as React from "react";
+import useLocalStorage from "use-local-storage";
 
 export interface FooterProps {
   disabled: boolean;
@@ -6,6 +7,23 @@ export interface FooterProps {
 }
 
 export default function Footer({ disabled, setIsIntroOpen }: FooterProps) {
+  const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const [theme, setTheme] = useLocalStorage(
+    "theme",
+    defaultDark ? "dark" : "light"
+  );
+  document.documentElement.setAttribute("data-theme", theme);
+
+  function switchTheme() {
+    if (theme === "light") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      setTheme("dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+      setTheme("light");
+    }
+  }
   return (
     <footer>
       <button
@@ -33,6 +51,14 @@ export default function Footer({ disabled, setIsIntroOpen }: FooterProps) {
         >
           <i className="icon-linkedin-sign" /> uğur
         </a>
+      </button>
+      <button id="change-theme-button" onClick={switchTheme}>
+        {theme === "light" ? (
+          <i className="icon-sun" />
+        ) : (
+          <i className="icon-moon" />
+        )}{" "}
+        {theme === "dark" ? "dark" : "light"}
       </button>
     </footer>
   );

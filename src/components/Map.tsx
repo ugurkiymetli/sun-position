@@ -19,7 +19,7 @@ export default function Map({
   city2,
   coordinates2,
 }: MapProps) {
-  const [zoomLevel, setZoomLevel] = useState(0);
+  const [zoomLevel, setZoomLevel] = useState(7);
 
   const [mapCenter, setMapCenter] = useState<LatLngLiteral>(
     getMapCenter(coordinates1, coordinates2)
@@ -56,7 +56,7 @@ export default function Map({
       <MapContainer
         key={`${mapCenter.lat}-${mapCenter.lng}-${zoomRange}`}
         center={mapCenter}
-        zoom={7}
+        zoom={zoomLevel}
         className="map-container"
       >
         <TileLayer
