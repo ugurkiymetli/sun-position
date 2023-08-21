@@ -188,7 +188,7 @@ export const steps = [
   },
 
   {
-    element: "#selected-cities-map",
+    element: ".leaflet-container",
     intro: "Here you'll find selected cities on the map.",
   },
 ];
