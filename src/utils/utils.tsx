@@ -1,3 +1,4 @@
+import { LatLngLiteral } from "leaflet";
 import { API_BASE_URL, API_KEY } from "./config";
 import { TimePeriod, Direction, Position } from "./enums";
 import { City, Geo } from "./types";
@@ -221,3 +222,38 @@ export function getCitiesAndDistricts(cityData: City[]) {
     return options;
   });
 }
+
+export const getDistance = (coordinates1: Geo, coordinates2: Geo): number => {
+  const { lat: lat1, lng: lon1 } = coordinates1;
+  const { lat: lat2, lng: lon2 } = coordinates2;
+  const R = 6371; // Radius of the earth in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c; // Distance in km
+  return Number(distance.toFixed(2));
+};
+
+export const getZoomLevel = (distance: number): number => {
+  const minZoom = 4;
+  const maxZoom = 12;
+  const dist = Number(Math.log2(distance).toFixed(2));
+  const zoomLevel = Math.min(maxZoom, Math.max(minZoom, Math.floor(16 - dist)));
+  return zoomLevel;
+};
+
+export const getMapCenter = (
+  coordinates1: Geo,
+  coordinates2: Geo
+): LatLngLiteral => {
+  return {
+    lat: (coordinates1.lat + coordinates2.lat) / 2,
+    lng: (coordinates1.lng + coordinates2.lng) / 2,
+  };
+};

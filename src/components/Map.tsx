@@ -1,70 +1,72 @@
-import L, { LatLngLiteral } from "leaflet";
+import { LatLngLiteral } from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Geo } from "../utils/types";
+import { useEffect, useState } from "react";
+import { getDistance, getMapCenter, getZoomLevel } from "../utils/utils";
 import "leaflet/dist/leaflet.css";
+import CustomIcon from "../utils/MapIcon";
 
 export interface MapProps {
-  coordinates1: Geo | undefined;
-  coordinates2: Geo | undefined;
   city1: string;
+  coordinates1: Geo;
   city2: string;
+  coordinates2: Geo;
 }
 
 export default function Map({
-  coordinates1,
-  coordinates2,
   city1,
+  coordinates1,
   city2,
+  coordinates2,
 }: MapProps) {
-  const mapCenter: LatLngLiteral =
-    coordinates1?.lat &&
-    coordinates1.lng &&
-    coordinates2?.lat &&
-    coordinates2.lng
-      ? {
-          lat: (coordinates1.lat + coordinates2.lat) / 2,
-          lng: (coordinates1.lng + coordinates2.lng) / 2,
-        }
-      : { lat: 0, lng: 0 };
+  const [zoomLevel, setZoomLevel] = useState(0);
 
-  const zoomLevel = 4;
-  const marker1Pos: LatLngLiteral =
-    coordinates1?.lat && coordinates1?.lng
-      ? {
-          lat: coordinates1?.lat,
-          lng: coordinates1?.lng,
-        }
-      : { lat: 0, lng: 0 };
-  const marker2Pos: LatLngLiteral =
-    coordinates2?.lat && coordinates2.lng
-      ? {
-          lat: coordinates2?.lat,
-          lng: coordinates2?.lng,
-        }
-      : { lat: 0, lng: 0 };
+  const [mapCenter, setMapCenter] = useState<LatLngLiteral>(
+    getMapCenter(coordinates1, coordinates2)
+  );
 
-  const icon = L.icon({
-    iconUrl: "assets/images/marker-icon.png",
-    iconSize: new L.Point(35, 46),
-  });
-  console.log(mapCenter);
+  const marker1Pos: LatLngLiteral = {
+    lat: coordinates1?.lat,
+    lng: coordinates1?.lng,
+  };
+
+  const marker2Pos: LatLngLiteral = {
+    lat: coordinates2?.lat,
+    lng: coordinates2?.lng,
+  };
+
+  const distance = getDistance(coordinates1, coordinates2);
+
+  const minZoom = 2;
+  const maxZoom = 12;
+  const zoomRange = Math.min(
+    maxZoom,
+    Math.max(minZoom, Math.floor(16 - Math.log2(distance)))
+  );
+
+  useEffect(() => {
+    setMapCenter(getMapCenter(coordinates1, coordinates2));
+    const distance = getDistance(coordinates1, coordinates2);
+    const zoom = getZoomLevel(distance);
+    setZoomLevel(zoom);
+  }, [coordinates1, coordinates2]);
 
   return (
     <div id="selected-cities-map">
       <MapContainer
-        key={`${coordinates1?.lat},${coordinates1?.lng} - ${coordinates2?.lat},${coordinates2?.lng}`}
+        key={`${mapCenter.lat}-${mapCenter.lng}-${zoomRange}`}
         center={mapCenter}
-        zoom={zoomLevel}
+        zoom={7}
         className="map-container"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={marker1Pos} icon={icon}>
+        <Marker position={marker1Pos} icon={CustomIcon("red")}>
           <Popup>{city1}</Popup>
         </Marker>
-        <Marker position={marker2Pos} icon={icon}>
+        <Marker position={marker2Pos} icon={CustomIcon("blue")}>
           <Popup>{city2} </Popup>
         </Marker>
       </MapContainer>

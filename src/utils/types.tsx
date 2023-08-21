@@ -1,6 +1,6 @@
 export interface Geo {
-  lat: number | undefined;
-  lng: number | undefined;
+  lat: number;
+  lng: number;
 }
 export interface Time {
   time: string;

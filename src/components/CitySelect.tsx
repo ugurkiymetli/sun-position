@@ -42,7 +42,7 @@ export const CitySelect = ({
     <>
       <div className="select-div">
         <label className={disabled ? "disabled" : ""} htmlFor={selectCity1}>
-          choose <strong>from</strong> city:
+          choose <strong className="city-from">from</strong> city:
         </label>{" "}
         <br />
         <select
@@ -57,7 +57,7 @@ export const CitySelect = ({
       </div>
       <div className="select-div">
         <label className={disabled ? "disabled" : ""} htmlFor={selectCity2}>
-          choose <strong>to</strong> city:
+          choose <strong className="city-to">to</strong> city:
         </label>
         <br />
         <select
