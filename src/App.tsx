@@ -82,6 +82,8 @@ function App() {
       )}
 
       <br />
+      <br />
+      <br />
       <Footer setIsIntroOpen={setIsIntroOpen} disabled={disabled} />
       <Steps
         enabled={isIntroOpen}

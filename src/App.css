@@ -218,3 +218,10 @@ select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
+
+.switch-button {
+  margin: 10px 0 0;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+}

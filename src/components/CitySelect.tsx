@@ -37,7 +37,10 @@ export const CitySelect = ({
     document.getElementById(selectTime)?.focus();
   };
   const disabled = error?.message !== undefined;
-
+  const handleSwitchCities = () => {
+    setCity1(city2);
+    setCity2(city1);
+  };
   return (
     <>
       <div className="select-div">
@@ -56,6 +59,7 @@ export const CitySelect = ({
           {getCitiesAndDistricts(cityData)}
         </select>
       </div>
+
       <div className="select-div">
         <label className={disabled ? "disabled" : ""} htmlFor={selectCity2}>
           choose <strong className="city-to">to</strong> city:
@@ -94,6 +98,11 @@ export const CitySelect = ({
           </select>
         </div>
       )}
+      <div>
+        <button className="switch-button" onClick={handleSwitchCities}>
+          <i className="icon-exchange" /> switch cities
+        </button>
+      </div>
     </>
   );
 };

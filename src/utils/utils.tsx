@@ -175,6 +175,10 @@ export const steps = [
     intro: "Choose the destination city from this dropdown.",
   },
   {
+    element: ".switch-button",
+    intro: "Switch cities.",
+  },
+  {
     element: "#select-time",
     intro: "Select the time of travel.",
   },
@@ -248,7 +252,7 @@ export const getZoomLevel = (distance: number): number => {
   const maxZoom = 12;
   const dist = Number(Math.log2(distance).toFixed(2));
   const zoomLevel = Math.min(maxZoom, Math.max(minZoom, Math.floor(16 - dist)));
-  return zoomLevel;
+  return zoomLevel - 1;
 };
 
 export const getMapCenter = (
