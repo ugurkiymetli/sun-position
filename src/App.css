@@ -131,3 +131,10 @@ a {
   text-decoration: underline;
   font-style: italic;
 }
+.map-container {
+  width: 100vh;
+  max-width: 100%;
+  height: 20vh;
+  margin: 10px auto 0;
+  display: block;
+}

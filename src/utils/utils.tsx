@@ -1,6 +1,6 @@
 import { API_BASE_URL, API_KEY } from "./config";
 import { TimePeriod, Direction, Position } from "./enums";
-import { Geo } from "./types";
+import { City, Geo } from "./types";
 export const quotaError = "quota exceeded";
 export async function fetchCoordinates(
   city: string,
@@ -185,4 +185,39 @@ export const steps = [
     element: "#sunPosition",
     intro: "Here you'll find information about the sun's position.",
   },
+
+  {
+    element: "#selected-cities-map",
+    intro: "Here you'll find selected cities on the map.",
+  },
 ];
+
+export function getCitiesAndDistricts(cityData: City[]) {
+  return cityData.map((city) => {
+    const options: JSX.Element[] = [];
+    const il = (
+      <>
+        {/* <option key={city.il_adi + "--"} value="" disabled>
+          -------------------------
+        </option> */}
+        <option key={`${city.plaka_kodu} - ${city.il_adi}`} value={city.il_adi}>
+          {city.plaka_kodu} - {city.il_adi}
+        </option>
+      </>
+    );
+    options.push(il);
+    // city.ilceler
+    //   .filter((ilce) => ilce.ilce_adi !== "MERKEZ")
+    //   .map((district) =>
+    //     options.push(
+    //       <option
+    //         key={`${city.plaka_kodu} - ${district.ilce_adi}`}
+    //         value={district.ilce_adi}
+    //       >
+    //         {city.plaka_kodu} - {capitalizeFirst(district.ilce_adi)}
+    //       </option>
+    //     )
+    //   );
+    return options;
+  });
+}
