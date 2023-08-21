@@ -46,6 +46,7 @@ export const CitySelect = ({
         </label>{" "}
         <br />
         <select
+          className="minimal"
           disabled={disabled}
           name={selectCity1}
           id={selectCity1}
@@ -61,6 +62,7 @@ export const CitySelect = ({
         </label>
         <br />
         <select
+          className="minimal"
           disabled={disabled}
           name={selectCity2}
           id={selectCity2}
@@ -77,6 +79,7 @@ export const CitySelect = ({
           </label>{" "}
           <br />
           <select
+            className="minimal"
             disabled={disabled}
             name={selectTime}
             id={selectTime}

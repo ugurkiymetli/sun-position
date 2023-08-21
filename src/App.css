@@ -1,8 +1,8 @@
 body {
-  background-color: #353b48;
+  background-color: #f5f6fa;
+  color: #2f3640;
 }
 .app {
-  color: #f5f6fa;
   display: flex;
   flex-direction: column;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
@@ -23,7 +23,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  border: 2px solid #2f3640;
+  border: 1px solid #2f3640;
   border-radius: 6px;
   background-color: #f5f6fa;
   width: 65%;
@@ -58,7 +58,7 @@ body {
   width: 80%;
   max-width: 200px;
   padding: 8px;
-  border: 2px solid #2f3640;
+  border: 1px solid #2f3640;
   border-radius: 6px;
   background-color: #f5f6fa;
   font-size: 16px;
@@ -74,7 +74,7 @@ body {
   margin: 6px 0;
 }
 .sun-position strong {
-  color: #e1b12c;
+  color: #f5a83a;
 }
 
 footer {
@@ -107,10 +107,12 @@ footer > button:hover {
 
 .introjs-tooltip {
   background-color: #f5f6fa;
-  border: 2px solid #2f3640;
+  border: 2px solid #191d88;
   border-radius: 6px;
 }
-
+.introjs-helperLayer {
+  border-radius: 6px;
+}
 a {
   text-decoration: none;
   color: inherit;
@@ -150,4 +152,33 @@ a {
 
 .city-to {
   color: #2980b9;
+}
+/* thanks to  https://codepen.io/vkjgr
+https://codepen.io/vkjgr/pen/VYMeXp */
+
+select {
+  display: inline-block;
+  font: inherit;
+  line-height: 1.5em;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+select.minimal {
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, #3c486b 50%, transparent 20%),
+    linear-gradient(to right, #ccc, #ccc);
+  background-position: calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
 }
